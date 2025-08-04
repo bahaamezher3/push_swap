@@ -75,165 +75,47 @@ flowchart TD
 
 #### 2 Elements Strategy
 
-```
-Stack A: [X, Y]
-
-Case 1 - Already sorted (X < Y):
-• No operations needed
-• Result: [X, Y] ✅
-
-Case 2 - Needs sorting (X > Y):
-• Execute: sa (swap a)
-• Result: [Y, X] ✅
-
-Maximum operations: 1
-```
+- Check if first > second
+- If yes: execute `sa` (swap a)
+- Maximum operations: 1
 
 #### 3 Elements Strategy (tiny_sort)
 
-```
-Initial: [A, B, C] where A, B, C are any values
-
-Algorithm:
-1. Find the highest value among the 3 elements
-2. Position the highest value optimally:
-   • If highest is at top (position 0): ra
-   • If highest is at middle (position 1): rra
-   • If highest is at bottom: do nothing
-3. Now highest is at bottom, check top 2 elements:
-   • If top > second: sa
-
-Example: [3, 1, 2]
-• Highest = 3 (at top)
-• Execute: ra → [1, 2, 3]
-• Check: 1 < 2 ✅ (no sa needed)
-• Result: [1, 2, 3] ✅
-
-Maximum operations: 3
-```
+- Find the highest value among the 3 elements
+- Position highest optimally using rotations
+- Apply `sa` if needed for final order
+- Maximum operations: 3
 
 ### Medium Stacks (4-5 elements)
 
-#### Strategy Overview
-
-For 4-5 elements, we use a hybrid approach that combines the efficiency of small stack sorting with strategic element positioning.
-
 #### handle_five Algorithm
 
-```
-Phase 1: Reduce to 3 elements
-1. Identify the 2 smallest numbers in the stack
-2. Use rotations to bring smallest to top
-3. Push smallest to stack B (pb)
-4. Repeat for second smallest
-5. Now stack A has 3 elements, stack B has 2
+Uses a three-phase approach:
 
-Phase 2: Sort the 3 elements
-• Apply tiny_sort algorithm to stack A
-
-Phase 3: Reintegrate sorted elements
-• Push back from B to A (pa operations)
-• Elements return in correct order
-
-Example: [5, 2, 4, 1, 3]
-Step 1: Find smallest (1), rotate to top, pb
-Step 2: Find next smallest (2), rotate to top, pb
-Step 3: Sort remaining [5, 4, 3] using tiny_sort
-Step 4: Push back 2, then 1
-Result: [1, 2, 3, 4, 5] ✅
+1. **Reduce Phase**: Push 2 smallest elements to stack B
+2. **Sort Phase**: Apply tiny_sort to remaining 3 elements in stack A
+3. **Reintegrate Phase**: Push elements back from B in correct order
 
 Maximum operations: 12
-```
-
-#### Optimization Benefits
-
-- **Guaranteed Performance**: Never exceeds 12 operations for 5 elements
-- **Strategic Positioning**: Smallest elements are pre-positioned
-- **Reuses tiny_sort**: Leverages proven 3-element algorithm
-- **Cost Effective**: Avoids complex cost calculations for small sets
 
 ### Large Stacks (6+ elements)
 
 #### Advanced Algorithm with Cost Analysis
 
-**Phase 1: Stack Preparation**
+The algorithm uses a five-phase approach:
 
-```
-Initial state: Stack A has N elements (N ≥ 6), Stack B is empty
-Goal: Reduce Stack A to exactly 3 elements
+1. **Preparation**: Push all but 3 elements to stack B
+2. **Base Sort**: Sort remaining 3 elements using tiny_sort
+3. **Cost Calculation**: Calculate movement costs for each element in B
+4. **Optimal Movement**: Move cheapest elements first
+5. **Final Position**: Rotate to put smallest element on top
 
-Process:
-• Keep the 3 elements that are easiest to sort in Stack A
-• Push remaining (N-3) elements to Stack B
-• Use pb operations: O(N) time complexity
-```
+#### Cost Optimization
 
-**Phase 2: Sort Base Elements**
-
-```
-Stack A now has exactly 3 elements
-• Apply tiny_sort algorithm (≤ 3 operations)
-• Stack A is now perfectly sorted for these 3 elements
-```
-
-**Phase 3: Cost-Based Reintegration**
-
-```
-For each element in Stack B, calculate:
-1. Position Cost: Rotations needed to reach target position in A
-2. Stack B Cost: Rotations needed to bring element to top of B
-3. Optimization: Check if both stacks can rotate simultaneously
-
-Cost Formula:
-• Same direction rotations: max(cost_A, cost_B)
-• Different directions: cost_A + cost_B
-```
-
-**Phase 4: Optimal Movement**
-
-```
-Repeat until Stack B is empty:
-1. Calculate costs for all elements in B
-2. Find element with minimum cost ("cheapest")
-3. Execute optimal rotation sequence
-4. Push cheapest element to correct position in A
-```
-
-**Phase 5: Final Positioning**
-
-```
-• Stack A contains all elements in relative order
-• Find smallest element in Stack A
-• Rotate Stack A until smallest is at top
-• Result: Perfectly sorted stack
-```
-
-### Cost Calculation Strategy
-
-The algorithm uses sophisticated cost analysis to minimize total operations:
-
-#### Position Analysis
-
-```
-For each element in Stack B:
-• Find its target position in sorted Stack A
-• Calculate rotation distance considering:
-  - Above median: direct rotations (ra/rb)
-  - Below median: reverse rotations (rra/rrb)
-```
-
-#### Optimization Techniques
-
-- **Simultaneous Rotations**: Use rr/rrr when both stacks rotate same direction
-- **Median Splitting**: Determines most efficient rotation direction
-- **Greedy Selection**: Always move the globally cheapest element first
-- **Dynamic Recalculation**: Costs updated after each movement
-
-#### Performance Characteristics
-
-- **Time Complexity**: O(n²) for cost calculations, O(n) for movements
-- **Space Complexity**: O(n) for the two stacks
-- **Optimization Level**: Near-optimal for most input distributions
+- Considers rotation costs for both stacks
+- Uses simultaneous rotations when beneficial
+- Employs median-based positioning strategy
+- Dynamically recalculates costs after each move
 
 ## Installation
 
@@ -316,25 +198,6 @@ push_swap/
     ├── 📄 stack_utils.c      # Stack utility functions
     ├── 📄 swap.c             # Swap operations
     └── 📄 tiny_sort.c        # Optimized sorting for small stacks
-```
-
-### File Organization by Function
-
-```mermaid
-graph LR
-    A[Input Processing] --> B[main.c<br/>stack_init.c<br/>ft_split.c]
-    C[Error Handling] --> D[check_errors.c<br/>stack_sorted.c]
-    E[Stack Operations] --> F[push.c<br/>swap.c<br/>rotate.c<br/>reverse_rotate.c]
-    G[Algorithm Logic] --> H[push_swapp.c<br/>push_swap_init.c<br/>tiny_sort.c]
-    I[Utilities] --> J[stack_utils.c<br/>push_swap.h]
-    K[Checker Program] --> L[checker.c<br/>get_next_line.c]
-
-    style B fill:#e3f2fd
-    style D fill:#fff3e0
-    style F fill:#e8f5e8
-    style H fill:#fce4ec
-    style J fill:#f3e5f5
-    style L fill:#fff8e1
 ```
 
 ### Key Components
