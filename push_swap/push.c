@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   push.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmezher <bmezher@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bmezher <bmezher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 12:54:01 by bmezher           #+#    #+#             */
 /*   Updated: 2025/07/31 15:45:07 by bmezher          ###   ########.fr       */
@@ -12,18 +12,18 @@
 
 #include "push_swap.h"
 
-void push(t_stack_node **dest, t_stack_node **src)
+void	push(t_stack_node **dest, t_stack_node **src)
 {
-	t_stack_node *node_to_push;
+	t_stack_node	*node_to_push;
 
-	if (NULL == *src)
-		return;
+	if (*src == NULL)
+		return ;
 	node_to_push = *src;
 	*src = (*src)->next;
 	if (*src)
 		(*src)->prev = NULL;
 	node_to_push->prev = NULL;
-	if (NULL == *dest)
+	if (*dest == NULL)
 	{
 		*dest = node_to_push;
 		node_to_push->next = NULL;
@@ -36,14 +36,14 @@ void push(t_stack_node **dest, t_stack_node **src)
 	}
 }
 
-void pa(t_stack_node **a, t_stack_node **b, bool checker)
+void	pa(t_stack_node **a, t_stack_node **b, bool checker)
 {
 	push(a, b);
 	if (!checker)
 		write(1, "pa\n", 3);
 }
 
-void pb(t_stack_node **b, t_stack_node **a, bool checker)
+void	pb(t_stack_node **b, t_stack_node **a, bool checker)
 {
 	push(b, a);
 	if (!checker)

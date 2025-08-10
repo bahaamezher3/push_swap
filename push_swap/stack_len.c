@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap_init.c                                      :+:      :+:    :+:*/
+/*   stack_len.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmezher <bmezher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/09 10:47:00 by bmezher           #+#    #+#             */
-/*   Updated: 2025/08/09 10:47:00 by bmezher          ###   ########.fr       */
+/*   Created: 2025/08/09 12:01:00 by bmezher           #+#    #+#             */
+/*   Updated: 2025/08/09 12:01:00 by bmezher          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	init_nodes(t_stack_node *a, t_stack_node *b)
+int	stack_len(t_stack_node *stack)
 {
-	set_current_position(a);
-	set_current_position(b);
-	set_target_node(a, b);
-	set_price(a, b);
-	set_cheapest(b);
+	int	count;
+
+	count = 0;
+	if (stack == NULL)
+		return (0);
+	while (stack)
+	{
+		count++;
+		stack = stack->next;
+	}
+	return (count);
 }

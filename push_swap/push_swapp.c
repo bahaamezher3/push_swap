@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swapp.c                                       :+:      :+:    :+:   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmezher <bmezher@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bmezher <bmezher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 13:21:35 by bmezher           #+#    #+#             */
-/*   Updated: 2025/08/02 15:37:46 by bmezher          ###   ########.fr       */
+/*   Updated: 2025/08/09 11:20:00 by bmezher          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-// logic of the rotation, so making
-// the cheapest node in he top of the wated one
-
-void finish_rotation(t_stack_node **stack,
-					 t_stack_node *top_node,
-					 char stack_name)
+void	finish_rotation(t_stack_node **stack,
+	t_stack_node *top_node, char stack_name)
 {
 	while (*stack != top_node)
 	{
 		if (stack_name == 'a')
 		{
-			if (top_node->above_median)
+			if (top_node->above_median == true)
 				ra(stack, false);
 			else
 				rra(stack, false);
 		}
 		else if (stack_name == 'b')
 		{
-			if (top_node->above_median)
+			if (top_node->above_median == true)
 				rb(stack, false);
 			else
 				rrb(stack, false);
@@ -38,9 +34,8 @@ void finish_rotation(t_stack_node **stack,
 	}
 }
 
-void rotate_both(t_stack_node **a,
-				 t_stack_node **b,
-				 t_stack_node *cheapest_node)
+void	rotate_both(t_stack_node **a,
+	t_stack_node **b, t_stack_node *cheapest_node)
 {
 	while (*a != cheapest_node->target_node && *b != cheapest_node)
 		rr(a, b, false);
@@ -48,9 +43,8 @@ void rotate_both(t_stack_node **a,
 	set_current_position(*b);
 }
 
-void reverse_rotate_both(t_stack_node **a,
-						 t_stack_node **b,
-						 t_stack_node *cheapest_node)
+void	reverse_rotate_both(t_stack_node **a,
+	t_stack_node **b, t_stack_node *cheapest_node)
 {
 	while (*a != cheapest_node->target_node && *b != cheapest_node)
 		rrr(a, b, false);
@@ -58,51 +52,18 @@ void reverse_rotate_both(t_stack_node **a,
 	set_current_position(*b);
 }
 
-// move from a to b
-
-void move_nodes(t_stack_node **a, t_stack_node **b)
+void	move_nodes(t_stack_node **a, t_stack_node **b)
 {
-	t_stack_node *cheapest_node;
+	t_stack_node	*cheapest_node;
 
 	cheapest_node = return_cheapest(*b);
-	if (cheapest_node->above_median && cheapest_node->target_node->above_median)
+	if (cheapest_node->above_median == true
+		&& cheapest_node->target_node->above_median == true)
 		rotate_both(a, b, cheapest_node);
-	else if (!(cheapest_node->above_median) && !(cheapest_node->target_node->above_median))
+	else if (cheapest_node->above_median == false
+		&& cheapest_node->target_node->above_median == false)
 		reverse_rotate_both(a, b, cheapest_node);
 	finish_rotation(b, cheapest_node, 'b');
 	finish_rotation(a, cheapest_node->target_node, 'a');
 	pa(a, b, false);
-}
-
-// push all nodes in B
-// find the cheapest
-// push in A in sorted way
-
-void push_swap(t_stack_node **a, t_stack_node **b)
-{
-	t_stack_node *smallest;
-	int len_a;
-
-	len_a = stack_len(*a);
-	if (len_a == 5)
-		handle_five(a, b);
-	else
-	{
-		while (len_a-- > 3)
-			pb(b, a, false);
-	}
-	tiny_sort(a);
-	while (*b)
-	{
-		init_nodes(*a, *b);
-		move_nodes(a, b);
-	}
-	set_current_position(*a);
-	smallest = find_smallest(*a);
-	if (smallest->above_median)
-		while (*a != smallest)
-			ra(a, false);
-	else
-		while (*a != smallest)
-			rra(a, false);
 }

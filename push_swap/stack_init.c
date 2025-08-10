@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   stack_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmezher <bmezher@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bmezher <bmezher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/02 16:01:59 by bmezher           #+#    #+#             */
 /*   Updated: 2025/08/02 16:02:07 by bmezher          ###   ########.fr       */

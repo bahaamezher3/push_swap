@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   swap.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bmezher <bmezher@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bmezher <bmezher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 10:48:17 by bmezher           #+#    #+#             */
 /*   Updated: 2025/07/31 16:37:04 by bmezher          ###   ########.fr       */
@@ -12,13 +12,13 @@
 
 #include "push_swap.h"
 
-void swap(t_stack_node **head)
+void	swap(t_stack_node **head)
 {
-	int len;
+	int	len;
 
 	len = stack_len(*head);
-	if (NULL == *head || NULL == head || 1 == len)
-		return;
+	if (*head == NULL || head == NULL || len == 1)
+		return ;
 	*head = (*head)->next;
 	(*head)->prev->prev = *head;
 	(*head)->prev->next = (*head)->next;
@@ -28,21 +28,21 @@ void swap(t_stack_node **head)
 	(*head)->prev = NULL;
 }
 
-void sa(t_stack_node **a, bool checker)
+void	sa(t_stack_node **a, bool checker)
 {
 	swap(a);
 	if (!checker)
 		write(1, "sa\n", 3);
 }
 
-void sb(t_stack_node **b, bool checker)
+void	sb(t_stack_node **b, bool checker)
 {
 	swap(b);
 	if (!checker)
 		write(1, "sb\n", 3);
 }
 
-void ss(t_stack_node **a, t_stack_node **b, bool checker)
+void	ss(t_stack_node **a, t_stack_node **b, bool checker)
 {
 	swap(a);
 	swap(b);

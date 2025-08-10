@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   stack_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bmezher <bmezher@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/09 12:00:00 by bmezher           #+#    #+#             */
+/*   Updated: 2025/08/09 12:00:00 by bmezher          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-t_stack_node *find_last_node(t_stack_node *head)
+t_stack_node	*find_last_node(t_stack_node *head)
 {
 	if (head == NULL)
 		return (NULL);
@@ -9,16 +21,8 @@ t_stack_node *find_last_node(t_stack_node *head)
 	return (head);
 }
 
-void append_node(t_stack_node **stack, int nbr)
+static void	init_node_values(t_stack_node *node, int nbr)
 {
-	t_stack_node *node;
-	t_stack_node *last_node;
-
-	if (stack == NULL)
-		return;
-	node = malloc(sizeof(t_stack_node));
-	if (node == NULL)
-		return;
 	node->next = NULL;
 	node->value = nbr;
 	node->current_position = 0;
@@ -27,6 +31,19 @@ void append_node(t_stack_node **stack, int nbr)
 	node->above_median = false;
 	node->cheapest = false;
 	node->target_node = NULL;
+}
+
+void	append_node(t_stack_node **stack, int nbr)
+{
+	t_stack_node	*node;
+	t_stack_node	*last_node;
+
+	if (stack == NULL)
+		return ;
+	node = malloc(sizeof(t_stack_node));
+	if (node == NULL)
+		return ;
+	init_node_values(node, nbr);
 	if (*stack == NULL)
 	{
 		*stack = node;
@@ -40,10 +57,10 @@ void append_node(t_stack_node **stack, int nbr)
 	}
 }
 
-t_stack_node *find_smallest(t_stack_node *stack)
+t_stack_node	*find_smallest(t_stack_node *stack)
 {
-	long smallest;
-	t_stack_node *smallest_node;
+	long			smallest;
+	t_stack_node	*smallest_node;
 
 	if (stack == NULL)
 		return (NULL);
@@ -60,7 +77,7 @@ t_stack_node *find_smallest(t_stack_node *stack)
 	return (smallest_node);
 }
 
-t_stack_node *return_cheapest(t_stack_node *stack)
+t_stack_node	*return_cheapest(t_stack_node *stack)
 {
 	if (stack == NULL)
 		return (NULL);
@@ -71,19 +88,4 @@ t_stack_node *return_cheapest(t_stack_node *stack)
 		stack = stack->next;
 	}
 	return (NULL);
-}
-
-int stack_len(t_stack_node *stack)
-{
-	int count;
-
-	count = 0;
-	if (stack == NULL)
-		return (0);
-	while (stack)
-	{
-		count++;
-		stack = stack->next;
-	}
-	return (count);
 }
