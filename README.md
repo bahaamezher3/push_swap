@@ -411,27 +411,22 @@ This script:
 
 ### Visualizer Integration
 
-The generated files can be used with push_swap visualizers:
+The generated files can be used with online push_swap visualizers:
 
 ```bash
 # Run test script to generate files
 ./test.sh
 
-# Use the files with a visualizer (example with common visualizers)
-# numbers.txt contains the initial stack
-# instruction.txt contains the operations to visualize
-
-# Example with a typical visualizer:
-./visualizer numbers.txt instruction.txt
-
-# Or copy the files to use with online visualizers:
+# Copy the files to use with online visualizers:
 cat numbers.txt    # Copy these numbers to visualizer input
 cat instruction.txt # Copy these operations to visualizer
 ```
 
 **Visualizer Usage:**
-- `numbers.txt` - Use as input numbers for the visualizer
-- `instruction.txt` - Use as the operations sequence to visualize the sorting process
+- `numbers.txt` - Copy the numbers to use as input for the online visualizer
+- `instruction.txt` - Copy the operations sequence to visualize the sorting process
+
+You can paste these contents into any push_swap visualizer website to see your algorithm in action!
 
 ### Quick Test Commands
 
